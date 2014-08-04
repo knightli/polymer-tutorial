@@ -1,0 +1,46 @@
+<!-- 演示全局变量在多个polymer实例中是如何被使用的, 值是如何变化的:
+  注意: 
+  1) 为了观察全局变量的变化, 新增了一个globalCounter来随时取值显示到view上
+  2) 通过新增polymer element实例, 观察原始script内的 g_counter=0是否会被重复执行而把值重置为0?
+-->
+<link rel="import" href="../components/polymer/polymer.html">
+
+<polymer-element name="my-counter" attributes="counter,globalCounter">
+  <template>
+    <style>
+    .highlight{
+      background-color: yellow;
+    }
+    </style>
+    <div id="label"><content></content></div>
+    inner counter: <span id="counterVal">{{counter}}</span><br>
+    global click counter: <span>{{globalCounter}}</span><br>
+    <button on-tap="{{increment}}">Increment</button>
+  </template>
+  <script>
+    var g_Counter = 0;
+    Polymer({
+      counter: 0, // Default value
+      globalCounter: 0,
+      created: function(){
+        console.info('created, counter='+this.counter+',g_Counter='+g_Counter);
+        this.timer = null;
+        this.globalCounter = g_Counter;
+      },
+      counterChanged: function() {
+        //console.info('counterChanged, counter='+this.counter);
+        if(this.timer) clearTimeout(this.timer);
+        this.$.counterVal.classList.add('highlight');
+        this.timer = setTimeout((function(){
+          this.$.counterVal.classList.remove('highlight');
+        }).bind(this),1000);
+      },
+      increment: function() {   
+        this.counter++;
+        g_Counter++;
+        //下面这句只是为了把全局变量的变化同步到内部public变量上,便于挂在view上供外部观察全局变量值的变化
+        this.globalCounter=g_Counter;
+      }
+    });
+  </script>
+</polymer-element>

@@ -1,0 +1,39 @@
+<link rel="import" href="../components/polymer/polymer.html">
+
+<polymer-element name="post-service" attributes="postArr">
+  <template>
+    <style>
+    :host {
+      display: none;
+    }
+    </style>
+  </template>
+  <script>
+  Polymer('post-service', {
+    created: function() {
+
+      setTimeout((function(){
+
+        this.postArr = [
+          {
+            "uid": 1,
+            "text" : "Have you heard about the Web Components revolution?",
+            "username" : "Eric",
+            "avatar" : "../images/avatar-01.svg",
+            "favorite": false
+          },
+          {
+            "uid": 2,
+            "text" : "Loving this Polymer thing.",
+            "username" : "Rob",
+            "avatar" : "../images/avatar-02.svg",
+            "favorite": false
+          }
+        ];
+
+      }).bind(this),2000);
+      
+    }
+  });
+  </script>
+</polymer-element>

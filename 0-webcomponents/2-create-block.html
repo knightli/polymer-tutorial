@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>input range</title>
+  <meta charset="utf8">
+  <style>
+  span{
+    border:2px solid red;
+    background-color:green;
+  }
+  .outer{
+    border-width:2px;
+    border-style:solid;
+  }
+  #block{
+    display:inline-block;
+  }
+  </style>
+</head>
+<body>
+  <div><span class="outer">outer</span></div>
+  <hr>
+  <div id="block"></div>
+  <script>
+  var host = document.getElementById('block');
+  var root = host.createShadowRoot();
+  root.innerHTML = '<span style="\
+    display:inline-block; margin:5px; min-width:40px; min-height:20px;\
+    color:blue; border:2px solid gray;\
+    "></span>';
+  </script>
+</body>

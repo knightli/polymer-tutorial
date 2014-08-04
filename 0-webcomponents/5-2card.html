@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>input range</title>
+  <meta charset="utf8">
+</head>
+<body>
+  <div class="card">knight</div>
+  <div class="card">hunter</div>
+  <template id="cardTpl">
+    <style>
+    :host{
+      display:inline-block;
+      background-color:yellow;
+    }
+    ul{
+      padding:10px;
+      margin:0;
+    }
+    li{
+      list-style: none;
+      margin:0;
+    }
+    span{
+      display:inline-block;
+      margin:5px;
+      min-width:40px;
+      min-height:20px;
+      color:blue;
+      background-color:#fff;
+      border:1px solid gray;
+    }
+    </style>
+    <ul>
+      <li>n:<span><content></content></span></li>
+    </ul>
+  </template>
+  <script>
+  var template = document.querySelector('#cardTpl');
+
+  var shadow = document.querySelectorAll('.card');
+
+  for(var i=0,len=shadow.length; i<len; i++){
+    shadow[i].createShadowRoot().appendChild(template.content.cloneNode(true));
+  }  
+  
+  </script>
+</body>

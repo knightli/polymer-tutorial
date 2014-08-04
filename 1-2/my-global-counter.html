@@ -1,0 +1,32 @@
+<link rel="import" href="../components/polymer/polymer.html">
+
+<polymer-element name="my-global-counter">
+  <template>
+    <my-counter id="counter"></my-counter>
+    <div id="label"><content></content></div>
+    Value: <span id="counterVal">{{counter}}</span><br>
+    <button on-tap="{{increment}}">Increment</button>
+  </template>
+  <script>
+    var g_clickCounter = 0;
+    Polymer({
+      counter: 0, // Default value
+      created: function(){
+        //console.info('created, counter='+this.counter);
+        this.timer = null;
+      },
+      counterChanged: function() {
+        //console.info('counterChanged, counter='+this.counter);
+        if(this.timer) clearTimeout(this.timer);
+        this.$.counterVal.classList.add('highlight');
+        this.timer = setTimeout((function(){
+          this.$.counterVal.classList.remove('highlight');
+        }).bind(this),1000);
+      },
+      increment: function() {
+        this.counter++;
+        g_clickCounter++;
+      }
+    });
+  </script>
+</polymer-element>

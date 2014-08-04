@@ -1,0 +1,54 @@
+<link rel="import" href="../components/polymer/polymer.html">
+
+<polymer-element name="card-item" attributes="weight">
+  <template id="cardTpl">
+    <style>
+    :host{
+      display:inline-block;
+      background-color:yellow;
+    }
+    ul{
+      padding:10px;
+      margin:0;
+    }
+    li{
+      list-style: none;
+      margin:0;
+    }
+    span{
+      display:inline-block;
+      margin:5px;
+      min-width:40px;
+      min-height:20px;
+      color:blue;
+      background-color:#fff;
+      border:1px solid gray;
+    }
+    ::content .name{
+      font-weight:bold;
+    }
+    .weight{
+      font-style: italic;
+      color:red;
+      cursor: default;
+    }
+    </style>
+    <ul>
+      <li>n:<span><content select=".name"></content></span></li>
+      <li>w:<span class="weight" on-tap="{{weightIncrement}}">{{weight}}</span></li>
+    </ul>
+  </template>
+  <script>
+  Polymer({
+      publish:{
+        weight: {
+          value: 0,
+          reflect: true
+        }
+      },
+      weightIncrement: function() {
+        this.weight++;
+      }
+    });
+  </script>
+</polymer-element>

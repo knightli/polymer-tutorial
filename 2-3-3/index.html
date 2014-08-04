@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html>
+
+<head>
+  <title>core-ajax</title>
+  <meta charset="utf8">
+  <script src="../components/platform/platform.js"></script>
+  <link rel="import" href="post-service.html">
+</head>
+
+<body unresolved touch-action="auto">
+  
+  <post-service postArr="{{posts}}"></post-service>
+  <template repeat="{{posts}}">
+    <div>{{username}}</div>
+  </template>
+
+  <script>
+    document.addEventListener('polymer-ready', function() {
+
+        var service = document.querySelector("post-service");
+
+        service.addEventListener('postArrLoaded',function(e){
+            //@todo: model这是一种什么样的用法?
+            document.querySelector('template').model = {
+                posts: e.detail
+            };
+
+        });
+
+    });
+  </script>
+  
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="post-service.html">
+<link rel="import" href="post-text.html">
+
+<polymer-element name="post-list">
+  <template>
+    <post-service postArr="{{posts}}"></post-service>
+    <template repeat="{{posts}}">
+        <post-text>{{username}}</post-text>
+    </template>
+    <hr>
+    <template repeat="{{post in posts}}">
+        <post-text>{{post.username}}</post-text>
+    </template>
+  </template>
+  
+  <script>
+  Polymer({});
+  </script>
+
+</polymer-element>

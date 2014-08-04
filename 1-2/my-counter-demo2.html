@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>my-counter-demo</title>
+  <!-- platform.js: polymer 针对低版本浏览器, 为Web Components 所需特性实现的一个 pollyfill -->
+  <script src="../components/platform/platform.js"></script>
+  <link rel="import" href="my-counter2.html">
+  <style>
+  html,body {
+    height: 100%;
+    margin: 0;
+    background-color: #E5E5E5;
+    font-family: 'RobotoDraft', sans-serif;
+  }
+  <style>
+    .highlight{
+      color:red;
+    }
+    </style>
+  </style>
+</head>
+
+<body unresolved touch-action="auto">
+  <div id="container">
+    <!-- 使用 polymer element -->
+    <my-counter counter="0">Points</my-counter>
+
+    <!-- 使用 polymer element -->
+    <my-counter counter="5">Points2</my-counter>
+  </div>
+
+
+  <hr>
+  <button onclick="addElement()">addElement</button>
+
+  <script>
+  var n = 2;
+  function addElement(){
+    var newCounter = document.createElement('my-counter');
+    n = n+1;
+    newCounter.setAttribute('counter',n*5);
+    newCounter.innerHTML = 'Point' + n;
+    document.getElementById('container').appendChild(newCounter);
+  }
+  </script>
+</body>
+
+</html>

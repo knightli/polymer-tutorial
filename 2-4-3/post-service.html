@@ -1,0 +1,35 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/core-ajax/core-ajax.html">
+
+<polymer-element name="post-service" attributes="postArr">
+  <template>
+    <style>
+    :host {
+      display: none;
+    }
+    </style>
+    <core-ajax id="ajax"
+      auto
+      url="../api/posts.json"
+      on-core-response="{{postArrLoaded}}"
+      handleAs="json">
+    </core-ajax>
+  </template>
+  <script>
+  Polymer('post-service', {
+    created: function() {
+      this.postArr = [];
+    },
+    postArrLoaded: function(e, detail){
+      //this.postArr = this.$.ajax.response.slice(0);
+      //this.postArr = e.detail.response;
+      this.postArr = detail.response;
+      console.info(this.postArr);
+    },
+    setFavorite: function(uid, favorite){
+      //@note: 这里在现实世界里应该是一个持久化写入的接口调用(例如发cgi请求让后台写数据库)
+      console.info('set uid('+uid+') favorite='+favorite);
+    }
+  });
+  </script>
+</polymer-element>

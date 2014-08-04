@@ -1,0 +1,30 @@
+<!--
+ 必须 import 此行, 否则会报如下错误:
+You tried to use polymer without loading it first. To load polymer, <link rel="import" href="components/polymer/polymer.html"> 
+-->
+<link rel="import" href="../components/polymer/polymer.html">
+
+<!-- 定义 polymer element -->
+<polymer-element name="my-counter" attributes="counter">
+  <template>
+    <style>
+    .highlight{
+      background-color: yellow;
+    }
+    </style>
+    <div id="label"><content></content></div>
+    Value: <span id="counterVal">{{counter}}</span><br>
+    <button on-tap="{{increment}}">Increment</button>
+  </template>
+  <script>
+    Polymer({
+      counter: 0, // Default value
+      counterChanged: function() {
+        this.$.counterVal.classList.add('highlight');
+      },
+      increment: function() {
+        this.counter++;
+      }
+    });
+  </script>
+</polymer-element>

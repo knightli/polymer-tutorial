@@ -1,0 +1,46 @@
+<!-- 在上一个例子基础上, 演示reflect的作用 -->
+
+<link rel="import" href="../components/polymer/polymer.html">
+
+<polymer-element name="my-counter" attributes="globalCounterObj">
+  <template>
+    <style>
+    .highlight{
+      background-color: yellow;
+    }
+    </style>
+    <div id="label"><content></content></div>
+    inner counter: <span id="counterVal">{{counter}}</span><br>
+    global click counter: <span>{{globalCounterObj.value}}</span><br>
+    <button on-tap="{{increment}}">Increment</button>
+  </template>
+  <script>
+    var g_CounterObj = {value:0};
+    Polymer({
+      publish:{
+        counter:{
+          value: 0,
+          reflect: true
+        }
+      },
+      created: function(){
+        console.info('created, counter='+this.counter+',g_CounterObj.value='+g_CounterObj.value);
+        this.timer = null;
+        this.globalCounterObj = g_CounterObj;
+      },
+      counterChanged: function() {
+        //console.info('counterChanged, counter='+this.counter);
+        if(this.timer) clearTimeout(this.timer);
+        this.$.counterVal.classList.add('highlight');
+        this.timer = setTimeout((function(){
+          this.$.counterVal.classList.remove('highlight');
+        }).bind(this),1000);
+      },
+      increment: function() {
+        g_CounterObj.value++;
+        this.counter++;
+        console.info('increment, counter='+this.counter+',g_CounterObj.value='+g_CounterObj.value);
+      }
+    });
+  </script>
+</polymer-element>

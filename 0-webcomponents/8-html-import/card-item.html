@@ -1,0 +1,84 @@
+<!doctype html>
+  
+<template id="cardTpl">
+  <style>
+  :host{
+    display:inline-block;
+    background-color:yellow;
+  }
+  ul{
+    padding:10px;
+    margin:0;
+  }
+  li{
+    list-style: none;
+    margin:0;
+  }
+  span{
+    display:inline-block;
+    margin:5px;
+    min-width:40px;
+    min-height:20px;
+    color:blue;
+    background-color:#fff;
+    border:1px solid gray;
+  }
+  ::content .name{
+    font-weight:bold;
+  }
+  .weight{
+    font-style: italic;
+    color:red;
+    cursor: default;
+  }
+  </style>
+  <ul>
+    <li>n:<span><content select=".name"></content></span></li>
+  </ul>
+</template>
+<script>
+(function(document){
+
+  var cardCtrl = function(context){
+    this.context = context;
+    this.shadow = context.createShadowRoot();
+    var template = document.querySelector('#cardTpl').content.cloneNode(true);
+    this.shadow.appendChild(template);
+
+    this.weight = parseInt(this.context.getAttribute('weight'));
+    var weight_li = document.createElement('ul');
+    weight_li.innerHTML = 'w:<span><div class="weight">'+this.weight+'</div></span>';
+    this.shadow.querySelector('ul').appendChild(weight_li);
+
+    this.setupListeners();
+  };
+
+  cardCtrl.prototype.setupListeners = function(){
+    var wbox = this.shadow.querySelector('.weight');
+    wbox.addEventListener('click',function(e){
+      this.weight ++;
+      this.context.setAttribute('weight', this.weight);
+    }.bind(this));
+  };
+
+  cardCtrl.prototype.attributeChangedCallback = function(attr, oldVal, newVal){
+    console.info('attr['+attr+'] change: '+oldVal+ '->'+newVal);
+    if(attr=='weight'){
+      this.shadow.querySelector('.weight').textContent = newVal;
+    }
+  };
+
+  var cardItem = Object.create(HTMLElement.prototype);
+  cardItem.createdCallback = function(){
+    this.controller = new cardCtrl(this);
+  };
+  
+  cardItem.attributeChangedCallback = function(attr, oldVal, newVal){
+    this.controller.attributeChangedCallback(attr, oldVal, newVal)
+  };
+
+  document.registerElement('card-item', {prototype: cardItem});
+
+
+})(document.currentScript.ownerDocument);
+</script>

@@ -1,0 +1,41 @@
+﻿<!doctype html>
+<html>
+
+<head>
+  <title>core-ajax</title>
+  <meta charset="utf8">
+  <script src="../components/platform/platform.js"></script>
+  <link rel="import" href="../components/core-ajax/core-ajax.html">
+</head>
+
+<body unresolved touch-action="auto">
+  
+  <core-ajax 
+    auto
+    url="../api/posts.json"
+    handleAs="json">
+  </core-ajax>
+
+  <template repeat="{{posts}}">
+    <div>{{username}}</div>
+  </template>
+
+  <script>
+    document.addEventListener('polymer-ready', function() {
+
+        var ajax = document.querySelector("core-ajax");
+
+        ajax.addEventListener('core-response',function(e){
+            
+            document.querySelector('template').model = {
+                posts: e.detail.response
+            };
+
+        });
+
+    });
+  </script>
+  
+</body>
+
+</html>

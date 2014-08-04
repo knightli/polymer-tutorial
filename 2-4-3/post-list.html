@@ -1,0 +1,45 @@
+﻿<link rel="import" href="../components/polymer/polymer.html">
+<!--@note: list组件需要一个获取数据的service组件 -->
+<link rel="import" href="post-service.html">
+<!--@note: 外加原本的card组件 -->
+<link rel="import" href="post-card.html">
+
+<polymer-element name="post-list" attributes="show">
+  <template>
+    <style>
+    :host {
+      display: block;
+      width: 100%;
+    }
+    post-card {
+      margin-bottom: 30px;
+    }
+    </style>
+
+    <post-service id="service" postArr="{{posts}}"></post-service>
+    
+    <div layout vertical center>
+      <template repeat="{{post in posts}}">
+        <!-- @note: 使用on-xxx来hanlde内部fire的事件xxx -->
+        <post-card favorite="{{post.favorite}}"
+          on-favorite-tap="{{favoriteChangeHandle}}"
+          hidden?="{{show == 'favorites' && !post.favorite}}">
+          <img src="{{post.avatar}}" width="70" height="70">
+          <h2>{{post.username}}</h2>
+          <p>{{post.text}}</p>
+        </post-card>
+      </template>
+    </div>
+  </template>
+  <script>
+  Polymer({
+    favoriteChangeHandle:function(event, detail, sender){
+      console.info(sender);
+      //sender是自定义元素(post-card), sender.templateInstance.model是该post-card的数据模型的引用
+      var post = sender.templateInstance.model.post;
+      this.$.service.setFavorite(post.uid, post.favorite);
+    }
+  });
+  </script>
+
+</polymer-element>

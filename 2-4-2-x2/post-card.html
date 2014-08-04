@@ -1,0 +1,80 @@
+﻿<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/core-icon-button/core-icon-button.html">
+
+<polymer-element name="post-card" attributes="status">
+  <template>
+    <style>
+    :host {
+      display: block;
+      position: relative;
+      background-color: white;
+      padding: 20px;
+      width: 100%;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+    .card-header {
+      margin-bottom: 10px;
+    }
+    polyfill-next-selector { content: '.card-header h2'; }
+    .card-header ::content h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 300;
+    }
+    polyfill-next-selector { content: '.card-header img'; }
+    .card-header ::content img {
+      width: 70px;
+      border-radius: 50%;
+      margin: 10px;
+    }
+    core-icon-button {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      fill: #636363;
+    }
+    .favorite{
+      fill: #da4336;
+    }
+
+    </style>
+    <div class="card-header" layout horizontal center>
+      <content select="img"></content>
+      <content select="h2"></content>
+    </div>
+    <core-icon-button
+      class="{{status.favorite?'favorite':''}}"
+      icon="favorite"
+      on-tap="{{favoriteTapped}}">
+    </core-icon-button>
+    <content></content>
+  </template>
+  <script>
+  Polymer({
+
+    debug_info: function(when){
+      if(!this.name && this.querySelector('h2')){
+        this.name = this.querySelector('h2').textContent;
+      }
+      console.info('['+when+']('+this.name+'):favorite='+this.getAttribute('favorite'));
+    },
+
+    created:function(){
+      this.debug_info('created');
+      this.status = {};
+      //this.status.favorite = this.getAttribute('favorite')=='true';
+    },
+
+    attached:function(){
+      this.debug_info('attached');
+      this.status.favorite = this.getAttribute('favorite')=='true';
+    },
+
+    favoriteTapped: function(event, detail, sender) {
+      this.status.favorite = !this.status.favorite;
+    }
+
+  });
+  </script>
+</polymer-element>

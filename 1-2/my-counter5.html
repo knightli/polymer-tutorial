@@ -1,0 +1,44 @@
+<!-- 使用global obj来演示:
+  1) this引用一个全局对象时, 改变其值, 会作用在全局(其他实例可以同步到此改动)
+    (这里使用obj是因为传引用, 所以不用像上一个例子同步改变全局变量的值) 
+  2) 在template内如何引用public obj的value
+-->
+<link rel="import" href="../components/polymer/polymer.html">
+
+<polymer-element name="my-counter" attributes="counter,globalCounterObj">
+  <template>
+    <style>
+    .highlight{
+      background-color: yellow;
+    }
+    </style>
+    <div id="label"><content></content></div>
+    inner counter: <span id="counterVal">{{counter}}</span><br>
+    global click counter: <span>{{globalCounterObj.value}}</span><br>
+    <button on-tap="{{increment}}">Increment</button>
+  </template>
+  <script>
+    var g_CounterObj = {value:0};
+    Polymer({
+      counter: 0, // Default value
+      created: function(){
+        console.info('created, counter='+this.counter+',g_CounterObj.value='+g_CounterObj.value);
+        this.timer = null;
+        this.globalCounterObj = g_CounterObj;
+      },
+      counterChanged: function() {
+        //console.info('counterChanged, counter='+this.counter);
+        if(this.timer) clearTimeout(this.timer);
+        this.$.counterVal.classList.add('highlight');
+        this.timer = setTimeout((function(){
+          this.$.counterVal.classList.remove('highlight');
+        }).bind(this),1000);
+      },
+      increment: function() {
+        g_CounterObj.value++;
+        this.counter++;
+        console.info('increment, counter='+this.counter+',g_CounterObj.value='+g_CounterObj.value);
+      }
+    });
+  </script>
+</polymer-element>

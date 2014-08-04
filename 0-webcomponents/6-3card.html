@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>input range</title>
+  <meta charset="utf8">
+</head>
+<body>
+  <card-item class="card">knight</card-item>
+  <card-item class="card">hunter</card-item>
+  <template id="cardTpl">
+    <style>
+    :host{
+      display:inline-block;
+      background-color:yellow;
+    }
+    ul{
+      padding:10px;
+      margin:0;
+    }
+    li{
+      list-style: none;
+      margin:0;
+    }
+    span{
+      display:inline-block;
+      margin:5px;
+      min-width:40px;
+      min-height:20px;
+      color:blue;
+      background-color:#fff;
+      border:1px solid gray;
+    }
+    </style>
+    <ul>
+      <li>n:<span><content></content></span></li>
+    </ul>
+  </template>
+  <script>
+  (function(document){
+
+    var cardCtrl = function(context){
+      this.context = context;
+      this.shadow = context.createShadowRoot();
+      var template = document.querySelector('#cardTpl').content.cloneNode(true);
+      this.shadow.appendChild(template);
+    }
+
+    var cardItem = Object.create(HTMLElement.prototype);
+    cardItem.createdCallback = function(){
+      this.controller = new cardCtrl(this);
+    };
+    
+    /*
+    cardItem.attributeChangedCallback = function(attr, oldVal, newVal){
+      this.controller.attributeChangedCallback(attr, oldVal, newVal)
+    };
+    cardItem.attachedCallback = function(){
+      this.controller.attachedCallback();
+    };
+    */
+
+    document.registerElement('card-item', {prototype: cardItem});
+
+
+  })(document.currentScript.ownerDocument);
+  </script>
+</body>

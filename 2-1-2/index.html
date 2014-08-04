@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>unquote</title>
+  <meta charset="utf8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+  <script src="../components/platform/platform.js"></script>
+
+  <link rel="import" href="../components/paper-tabs/paper-tabs.html">
+  
+  <style>
+  html,body {
+    height: 100%;
+    margin: 0;
+    background-color: #E5E5E5;
+    font-family: 'RobotoDraft', sans-serif;
+  }
+  paper-tabs {
+    width: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  @media (min-width: 481px) {
+    paper-tabs {
+      width: 200px;
+    }
+  }
+  </style>
+</head>
+<body>
+
+
+      <paper-tabs selected="all" valueattr="name" self-end>
+        <paper-tab name="all">ALL</paper-tab>
+        <paper-tab name="favorites">FAVORITES</paper-tab>
+      </paper-tabs>
+
+</body>
+
+</html>

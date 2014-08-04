@@ -1,0 +1,35 @@
+<!-- 解决上一个例子里, timer互相干扰的问题-->
+<link rel="import" href="../components/polymer/polymer.html">
+
+<polymer-element name="my-counter" attributes="counter">
+  <template>
+    <style>
+    .highlight{
+      background-color: yellow;
+    }
+    </style>
+    <div id="label"><content></content></div>
+    Value: <span id="counterVal">{{counter}}</span><br>
+    <button on-tap="{{increment}}">Increment</button>
+  </template>
+  <script>
+    Polymer({
+      counter: 0, // Default value
+      created: function(){
+        console.info('created, counter='+this.counter);
+        this.timer = null;
+      },
+      counterChanged: function() {
+        console.info('counterChanged, counter='+this.counter);
+        if(this.timer) clearTimeout(this.timer);
+        this.$.counterVal.classList.add('highlight');
+        this.timer = setTimeout((function(){
+          this.$.counterVal.classList.remove('highlight');
+        }).bind(this),1000);
+      },
+      increment: function() {
+        this.counter++;
+      }
+    });
+  </script>
+</polymer-element>
